@@ -19,14 +19,14 @@ public class App {
                 1500, LocalDate.of(2024, 12, 18),
                 LocalDate.of(2024, 12,20));
 
-       Udflugt egeskov = Controller.createUdflugt(havOgHimmel, "Egeskov", 75, LocalDate.of(2024,12,19));
-       Udflugt trapholt = Controller.createUdflugt(havOgHimmel,"Trapholt Museum, Kolding (inkl. frokost)", 200, LocalDate.of(2024,12,20));
-       Udflugt byrundtur =  Controller.createUdflugt(havOgHimmel,"Byrundtur, Odense (inkl. frokost)", 125, LocalDate.of(2024,12,18));
+       Controller.createUdflugt(havOgHimmel, "Egeskov", 75, LocalDate.of(2024,12,19));
+       Controller.createUdflugt(havOgHimmel,"Trapholt Museum, Kolding (inkl. frokost)", 200, LocalDate.of(2024,12,20));
+       Controller.createUdflugt(havOgHimmel,"Byrundtur, Odense (inkl. frokost)", 125, LocalDate.of(2024,12,18));
 
 
        Hotel denHvideSvane =  Controller.createHotel("Den Hvide Svane", 1050, 1250);
 
-       Tilvalg denHvideSvaneWIFI = Controller.createTilvalg(denHvideSvane,"WIFI", 50);
+       Controller.createTilvalg(denHvideSvane,"WIFI", 50);
 
 
        //------------------------------------
