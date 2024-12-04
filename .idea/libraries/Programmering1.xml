@@ -1,0 +1,27 @@
+<component name="libraryTable">
+  <library name="Programmering1">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/Lek01_JavaIntroduction/src" />
+      <root url="file://$PROJECT_DIR$/Lek02_SImpleJava/src" />
+      <root url="file://$PROJECT_DIR$/Lek03_VariablerScannerStrings/src" />
+      <root url="file://$PROJECT_DIR$/Lek04_IfElseBoolean/src" />
+      <root url="file://$PROJECT_DIR$/Lek05_While/src" />
+      <root url="file://$PROJECT_DIR$/Lek06_Workshop/src" />
+      <root url="file://$PROJECT_DIR$/Lek07_ForLoops/src" />
+      <root url="file://$PROJECT_DIR$/Lek08_Arrays/src" />
+      <root url="file://$PROJECT_DIR$/Lek09_Arrays2/src" />
+      <root url="file://$PROJECT_DIR$/Lek10_KlasserOgObjekter/src" />
+      <root url="file://$PROJECT_DIR$/Lek11_12_Projekt/src" />
+      <root url="file://$PROJECT_DIR$/Lek13_ClassesAndObjects/src" />
+      <root url="file://$PROJECT_DIR$/Lek14_ClassesObjekterSpecifikation/src" />
+      <root url="file://$PROJECT_DIR$/Lek15_OpsamlingAfBegreber/src" />
+      <root url="file://$PROJECT_DIR$/Lek16&amp;17_Projekt2/src" />
+      <root url="file://$PROJECT_DIR$/Lek18_ArrayList/src" />
+      <root url="file://$PROJECT_DIR$/Lek19_GUI/src" />
+    </SOURCES>
+  </library>
+</component>
