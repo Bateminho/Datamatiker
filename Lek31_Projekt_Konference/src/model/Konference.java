@@ -71,6 +71,8 @@ public class Konference {
 
     }
 
+    public ArrayList<Tilmelding> getTilmeldinger() {return new ArrayList<>(tilmeldinger); }
+
     public Udflugt creatUdflugt(String aktivitet, double pris, LocalDate dato){
         Udflugt udflugt = new Udflugt(aktivitet, pris, dato);
         udflugter.add(udflugt);

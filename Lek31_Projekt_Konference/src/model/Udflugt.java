@@ -25,4 +25,8 @@ public class Udflugt {
     public LocalDate getDato() {
         return dato;
     }
+
+    public String toString() {
+        return this.aktivitet;
+    }
 }

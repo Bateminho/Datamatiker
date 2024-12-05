@@ -15,4 +15,8 @@ public class Tilvalg {
     public double getPris() { return pris; }
     public void setPris(double pris) { this.pris = pris; }
 
+    public String toString() {
+        return type;
+    }
+
 }

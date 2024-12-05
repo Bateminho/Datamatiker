@@ -5,12 +5,14 @@ import javafx.application.Application;
 import model.*;
 
 
+import javax.naming.ldap.Control;
 import java.time.LocalDate;
 
 public class App {
     public static void main(String[] args) {
-        Application.launch(Gui.class);
         initStorage();
+        Application.launch(Gui.class);
+
     }
 
 
@@ -26,8 +28,13 @@ public class App {
 
 
        Hotel denHvideSvane =  Controller.createHotel("Den Hvide Svane", 1050, 1250);
+       Hotel hotelPhønix = Controller.createHotel("Hotel Phonix", 700, 800);
+       Hotel persionTusindfryd = Controller.createHotel("Pension Tusindfryd", 500, 600);
 
        Controller.createTilvalg(denHvideSvane,"WIFI", 50);
+       Controller.createTilvalg(hotelPhønix, "WIFI", 75);
+       Controller.createTilvalg(hotelPhønix, "Bad", 200);
+       Controller.createTilvalg(persionTusindfryd, "Morgenmad", 100);
 
 
        //------------------------------------

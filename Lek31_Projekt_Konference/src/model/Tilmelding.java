@@ -30,8 +30,6 @@ public class Tilmelding {
 
     }
 
-
-
     public LocalDate getAnkomstDato() {
         return ankomstDato;
     }
@@ -82,6 +80,10 @@ public class Tilmelding {
 
     public ArrayList<Udflugt> getUdflugter() {
         return new ArrayList<>(udflugter);
+    }
+
+    public String toString() {
+        return this.deltager.getNavn() + " (Tlf.nr. " + this.deltager.getTelefonnr() + ")";
     }
 
     // Metoder til håndtering af udflugter

@@ -5,8 +5,7 @@ import storage.Storage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.concurrent.SynchronousQueue;
-import java.util.stream.StreamSupport;
+
 
 public class Controller {
 
@@ -48,9 +47,13 @@ public class Controller {
         return konference.creatUdflugt(aktivitet, pris, dato);
     }
 
+    public static ArrayList<Udflugt> getUdflugter(Konference konference) {return konference.getUdflugter();}
+
     public static Tilvalg createTilvalg(Hotel hotel, String  type, double pris) {
         return hotel.createTilvalg(type, pris);
     }
+
+    public static ArrayList<Tilvalg> getTilvalg (Hotel hotel) {return hotel.getTilvalg(); }
 
     public static Tilmelding createTilmelding(Konference konference, Hotel hotel, Deltager deltager, Ledsager ledsager, LocalDate ankomstDato, LocalDate afrejseDato, boolean foredragsholder) {
         return konference.createTilmelding(konference, hotel, deltager, ledsager, ankomstDato, afrejseDato, foredragsholder);

@@ -57,6 +57,10 @@ public class Hotel {
         return tilvalg;
     }
 
+    public String toString() {
+        return navn;
+    }
+
     public double beregnOpholdsPris(int antalNætter, boolean enkeltVærelse, ArrayList<Tilvalg> valgteTilvalg) {
         double basisPris = antalNætter * (enkeltVærelse ? prisEnkeltVærelse : prisDobbeltVærelse);
         double tilvalgsPris = 0;
