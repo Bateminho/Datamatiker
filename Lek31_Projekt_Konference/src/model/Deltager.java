@@ -82,6 +82,10 @@ public class Deltager {
         this.firmaTelefonnr = firmaTelefonnr;
     }
 
+    public String toString() {
+       return this.navn;
+    }
+
     //--------------------------------------------------------------------------------
 
 

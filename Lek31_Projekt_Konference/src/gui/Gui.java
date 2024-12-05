@@ -1,18 +1,69 @@
 package gui;
 
+import controller.Controller;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import model.Deltager;
 
 public class Gui extends Application {
+
+    // Felter for deltager-sektionen
+    private TextField deltagerNavn = new TextField();
+    private TextField adresse = new TextField();
+    private TextField by = new TextField();
+    private TextField land = new TextField();
+    private TextField telefonNr = new TextField();
+    private TextField deltagerFirma = new TextField();
+    private TextField firmaTlfNr = new TextField();
+    private CheckBox foredragsholder = new CheckBox("Foredragsholder");
+    private Button tilfoejDeltager = new Button("Tilføj Deltager");
+
+    // Felter for oversigter
+    private ListView<Deltager> deltagerSummary = new ListView<>();
+    private ListView<String> ledsagerSummary = new ListView<>();
+    private ListView<String> hotelSummary = new ListView<>();
 
     public void start(Stage stage) {
         stage.setTitle("Konference Administrations System");
 
-        // Root layout
+        // Root layout with TabPane
+        TabPane tabPane = new TabPane();
+
+        // Tab: Tilmelding
+        Tab tilmeldingTab = new Tab("Tilmelding");
+        tilmeldingTab.setClosable(false);
+        tilmeldingTab.setContent(createTilmeldingPane());
+
+        // Tab: Deltageroversigt
+        Tab deltagerOversigtTab = new Tab("Deltageroversigt");
+        deltagerOversigtTab.setClosable(false);
+        deltagerOversigtTab.setContent(createDeltagerOversigtPane());
+
+        // Tab: Udflugtsoversigt
+        Tab udflugtsOversigtTab = new Tab("Udflugtsoversigt");
+        udflugtsOversigtTab.setClosable(false);
+        udflugtsOversigtTab.setContent(createUdflugtsOversigtPane());
+
+        // Tab: Hoteloversigt
+        Tab hotelOversigtTab = new Tab("Hoteloversigt");
+        hotelOversigtTab.setClosable(false);
+        hotelOversigtTab.setContent(createHotelOversigtPane());
+
+        // Add tabs to TabPane
+        tabPane.getTabs().addAll(tilmeldingTab, deltagerOversigtTab, udflugtsOversigtTab, hotelOversigtTab);
+
+        // Scene setup
+        Scene scene = new Scene(tabPane, 900, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    // Pane for "Tilmelding" Tab
+    private Pane createTilmeldingPane() {
         GridPane root = new GridPane();
         root.setHgap(10);
         root.setVgap(10);
@@ -34,24 +85,16 @@ public class Gui extends Application {
         deltagerHeader.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         deltagerBox.getChildren().add(deltagerHeader);
 
-        TextField deltagerNavn = new TextField();
         deltagerNavn.setPromptText("Navn");
-        TextField adresse = new TextField();
         adresse.setPromptText("Adresse");
-        TextField by = new TextField();
         by.setPromptText("By");
-        TextField land = new TextField();
         land.setPromptText("Land");
-        TextField telefonNr = new TextField();
         telefonNr.setPromptText("Telefonnummer");
-        TextField deltagerFirma = new TextField();
         deltagerFirma.setPromptText("Firma");
-        TextField firmaTlfNr = new TextField();
         firmaTlfNr.setPromptText("Firma Telefonnummer");
 
-        CheckBox foredragsholder = new CheckBox("Foredragsholder");
 
-        Button tilfoejDeltager = new Button("Tilføj Deltager");
+        tilfoejDeltager.setOnAction(event -> tilføjDeltagerAction());
 
         deltagerBox.getChildren().addAll(
                 deltagerNavn, adresse, by, land, telefonNr, deltagerFirma, firmaTlfNr, foredragsholder, tilfoejDeltager
@@ -84,6 +127,15 @@ public class Gui extends Application {
         udflugtList.getItems().addAll("Byrundtur", "Egeskov");
 
         Button tilfoejLedsager = new Button("Tilføj Ledsager");
+        tilfoejLedsager.setOnAction(e -> {
+            if (!ledsagerNavn.getText().isEmpty()) {
+                ledsagerSummary.getItems().add("Ledsager: " + ledsagerNavn.getText());
+                ledsagerNavn.clear();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Indtast venligst ledsagerens navn!", ButtonType.OK);
+                alert.showAndWait();
+            }
+        });
 
         ledsagerBox.getChildren().addAll(ledsagerNavn, udflugt, tilfoejUdflugt, fjernUdflugt, udflugtList, tilfoejLedsager);
 
@@ -126,15 +178,12 @@ public class Gui extends Application {
         summaryContainer.setPadding(new Insets(10));
         summaryContainer.setStyle("-fx-border-color: #ccc; -fx-border-radius: 8px; -fx-background-color: #f9f9f9;");
 
-        ListView<String> deltagerSummary = new ListView<>();
         deltagerSummary.setPrefHeight(150);
         deltagerSummary.setPrefWidth(200);
 
-        ListView<String> ledsagerSummary = new ListView<>();
         ledsagerSummary.setPrefHeight(150);
         ledsagerSummary.setPrefWidth(200);
 
-        ListView<String> hotelSummary = new ListView<>();
         hotelSummary.setPrefHeight(150);
         hotelSummary.setPrefWidth(200);
 
@@ -144,21 +193,59 @@ public class Gui extends Application {
         // Add "Opret Tilmelding" Button
         Button opretTilmelding = new Button("Opret Tilmelding");
         opretTilmelding.setOnAction(e -> {
-            deltagerSummary.getItems().add("Deltager: " + deltagerNavn.getText());
+            //deltagerSummary.getItems().add("Deltager: " + deltagerNavn.getText());
             ledsagerSummary.getItems().add("Ledsager: " + ledsagerNavn.getText());
             hotelSummary.getItems().add("Hotel: " + hotelNavn.getValue());
         });
-
         root.add(opretTilmelding, 0, 3, 3, 1);
 
-        // Add "Vis deltageroversigt" Button
-        Button deltagoversigt = new Button("Deltageroversigt");
-
-        // Scene setup
-        Scene scene = new Scene(root, 900, 600);
-        stage.setScene(scene);
-        stage.show();
+        return root;
     }
+
+    // Pane for "Deltageroversigt" Tab
+    private Pane createDeltagerOversigtPane() {
+        VBox root = new VBox();
+        root.setSpacing(10);
+        root.setPadding(new Insets(20));
+        root.getChildren().add(new Label("Deltageroversigt - Her vises en liste over deltagere."));
+        return root;
+    }
+
+    // Pane for "Udflugtsoversigt" Tab
+    private Pane createUdflugtsOversigtPane() {
+        VBox root = new VBox();
+        root.setSpacing(10);
+        root.setPadding(new Insets(20));
+        root.getChildren().add(new Label("Udflugtsoversigt - Her vises en liste over udflugter."));
+        return root;
+    }
+
+    // Pane for "Hoteloversigt" Tab
+    private Pane createHotelOversigtPane() {
+        VBox root = new VBox();
+        root.setSpacing(10);
+        root.setPadding(new Insets(20));
+        root.getChildren().add(new Label("Hoteloversigt - Her vises en liste over hoteller."));
+        return root;
+    }
+
+    public void tilføjDeltagerAction(){
+        String navn = deltagerNavn.getText().trim();
+        String adresseDeltager = adresse.getText().trim();
+        String byDeltager = by.getText().trim();
+        String landDeltager = land.getText().trim();
+        String telefon = telefonNr.getText().trim();
+        String firma = deltagerFirma.getText().trim();
+        String firmaTlf = firmaTlfNr.getText().trim();
+
+
+        Deltager deltager = Controller.createDeltager(navn, adresseDeltager, byDeltager, landDeltager, telefon, firma, firmaTlf);
+
+        deltagerSummary.getItems().add(deltager);
+        tilfoejDeltager.setDisable(true);
+        foredragsholder.setDisable(true);
+    }
+
 
 
 }
