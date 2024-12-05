@@ -1,4 +1,4 @@
-package opgave2SelectionSort;
+package opgave2;
 
 import java.util.ArrayList;
 

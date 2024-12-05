@@ -1,4 +1,4 @@
-package opgave2SelectionSort;
+package opgave2SelctionSort;
 
 import model.Customer;
 import java.util.ArrayList;

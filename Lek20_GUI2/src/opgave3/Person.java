@@ -1,4 +1,4 @@
-package opgave2SelectionSort;
+package opgave3;
 
 public class Person {
 	private final String name;

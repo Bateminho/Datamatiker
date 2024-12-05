@@ -1,4 +1,4 @@
-package opgave3InsertionSort;
+package opgave3;
 
 public class AppCar {
     public static void main(String[] args) {

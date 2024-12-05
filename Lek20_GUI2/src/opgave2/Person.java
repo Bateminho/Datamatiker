@@ -1,4 +1,4 @@
-package opgave3InsertionSort;
+package opgave2;
 
 public class Person {
 	private final String name;

@@ -1,4 +1,4 @@
-package opgave2SelectionSort;
+package opgave2;
 
 public class AppGifts {
     public static void main(String[] args) {

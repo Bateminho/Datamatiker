@@ -1,4 +1,4 @@
-package opgave3InsertionSort;
+package opgave3;
 
 import javafx.application.Application;
 
