@@ -151,6 +151,9 @@ public class Gui extends Application {
 
         root.add(opretTilmelding, 0, 3, 3, 1);
 
+        // Add "Vis deltageroversigt" Button
+        Button deltagoversigt = new Button("Deltageroversigt");
+
         // Scene setup
         Scene scene = new Scene(root, 900, 600);
         stage.setScene(scene);
