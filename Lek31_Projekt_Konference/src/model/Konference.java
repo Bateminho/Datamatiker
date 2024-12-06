@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class Konference {
@@ -65,7 +66,7 @@ public class Konference {
     }
 
     public Tilmelding createTilmelding(Konference konference, Hotel hotel, Deltager deltager, Ledsager ledsager, LocalDate ankomstDato, LocalDate afrejseDato, boolean foredragsholder) {
-        Tilmelding tilmelding = new Tilmelding(this, hotel, deltager,ledsager, ankomstDato, afrejseDato, foredragsholder);
+        Tilmelding tilmelding = new Tilmelding(konference, hotel, deltager,ledsager, ankomstDato, afrejseDato, foredragsholder);
             tilmeldinger.add(tilmelding);
             return tilmelding;
 
@@ -92,5 +93,13 @@ public class Konference {
 
     public void fjernHotel(Hotel hotel) {
         hoteller.remove(hotel);
+    }
+
+    public double beregnKonferencePris(LocalDate ankomstDato, LocalDate afrejseDato, boolean foredragsholder, boolean firmaBetaler) {
+        if (foredragsholder || firmaBetaler) {
+            return 0;
+        }
+        long antalDage = (int) ChronoUnit.DAYS.between(ankomstDato, afrejseDato) + 1;
+        return antalDage * this.prisPrDag;
     }
 }

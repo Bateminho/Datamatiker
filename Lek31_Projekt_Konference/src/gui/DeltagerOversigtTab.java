@@ -4,19 +4,16 @@ import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import model.Deltager;
 import model.Konference;
 import model.Tilmelding;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class DeltagerOversigtTab {
 
     private ListView<String> tilmeldingListView = new ListView<>();
     private ListView<String> samletPrisView = new ListView<>();
     private Konference konference = Controller.getKonference().getFirst();
-    private ArrayList<Tilmelding> tilmeldinger = new ArrayList<>(konference.getTilmeldinger());
     private TextField søgeFelt = new TextField();
 
     public Pane createContent() {
@@ -37,9 +34,8 @@ public class DeltagerOversigtTab {
 
         // Konfigurer oversigten
         root.getChildren().addAll(
-                new Label("Deltageroversigt"),
                 listSection,
-                searchSection // Tilføj søgefelt og knap under listen
+                searchSection
         );
 
         return root;
@@ -71,13 +67,14 @@ public class DeltagerOversigtTab {
         String deltagerNavn = søgeFelt.getText().trim();
         samletPrisView.getItems().clear();
 
-        if(deltagerNavn.isEmpty()) {
+        if (deltagerNavn.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Indtast venligst et navn for at søge!", ButtonType.OK);
             alert.showAndWait();
+            return;
         }
 
         boolean fundet = false;
-        for (Tilmelding tilmelding : tilmeldinger) {
+        for (Tilmelding tilmelding : konference.getTilmeldinger()) {
             if (tilmelding.getDeltager().getNavn().equalsIgnoreCase(deltagerNavn)) {
                 fundet = true;
 
@@ -109,7 +106,7 @@ public class DeltagerOversigtTab {
         }
     }
 
-    // Insertion sort til sortering af deltagerlisten
+    // -------------------------------- Sortér deltagerlisten
     public void insertionSort(ArrayList<Tilmelding> list) {
         for (int i = 1; i < list.size(); i++) {
             Tilmelding next = list.get(i);
@@ -122,10 +119,10 @@ public class DeltagerOversigtTab {
         }
     }
 
-    // Opdater indholdet i ListView og sortér efter deltagerens navn
+    // ------------------------------ Opdater indholdet i ListView og sortér efter deltagerens navn -------------------
     public void updateContent() {
-       // ArrayList<Tilmelding> tilmeldinger = new ArrayList<>(konference.getTilmeldinger());
-        insertionSort(tilmeldinger); // Sorter tilmeldingerne
+        ArrayList<Tilmelding> tilmeldinger = new ArrayList<>(konference.getTilmeldinger());
+        insertionSort(tilmeldinger); // Sortér tilmeldingerne
 
         ArrayList<String> deltagerInfo = new ArrayList<>();
         for (Tilmelding tilmelding : tilmeldinger) {
@@ -138,11 +135,11 @@ public class DeltagerOversigtTab {
             }
 
             if (tilmelding.getLedsager() != null) {
-                sb.append("\n Ledsager: ").append(tilmelding.getLedsager().getNavn());
+                sb.append("\nLedsager: ").append(tilmelding.getLedsager().getNavn());
             }
 
             if (tilmelding.getHotel() != null) {
-                sb.append("\n Hotel: ").append(tilmelding.getHotel().getNavn());
+                sb.append("\nHotel: ").append(tilmelding.getHotel().getNavn());
             }
 
             deltagerInfo.add(sb.toString());

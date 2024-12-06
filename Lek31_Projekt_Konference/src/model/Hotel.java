@@ -7,7 +7,6 @@ public class Hotel {
     private double prisEnkeltVærelse;
     private double prisDobbeltVærelse;
 
-    private ArrayList<Tilmelding> tilmeldinger;
     private ArrayList<Tilvalg> tilvalg;
 
     public Hotel(String navn, double prisEnkeltVærelse, double prisDobbeltVærelse) {
@@ -15,7 +14,7 @@ public class Hotel {
         this.prisEnkeltVærelse = prisEnkeltVærelse;
         this.prisDobbeltVærelse = prisDobbeltVærelse;
         tilvalg = new ArrayList<>();
-        tilmeldinger = new ArrayList<>();
+        //tilmeldinger = new ArrayList<>();
     }
 
     public String getNavn() { return navn; }
@@ -26,18 +25,6 @@ public class Hotel {
 
     public double getPrisDobbeltVærelse() {return prisDobbeltVærelse; }
     public void setPrisDobbeltVærelse(double prisDobbeltVærelse) { this.prisDobbeltVærelse = prisEnkeltVærelse; }
-
-    public void tilføjTilmelding(Tilmelding tilmelding) {
-        this.tilmeldinger.add(tilmelding);
-    }
-
-    public void fjernTilmeldling(Tilmelding tilmelding) {
-        this.tilmeldinger.remove(tilmelding);
-    }
-
-    public ArrayList<Tilmelding> getTilmeldinger() {
-        return new ArrayList<>(tilmeldinger);
-    }
 
 
     // Tilføj tilvalg

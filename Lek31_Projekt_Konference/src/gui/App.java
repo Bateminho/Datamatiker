@@ -3,9 +3,6 @@ package gui;
 import controller.Controller;
 import javafx.application.Application;
 import model.*;
-
-
-import javax.naming.ldap.Control;
 import java.time.LocalDate;
 
 public class App {
@@ -47,7 +44,7 @@ public class App {
 
 
 
-        System.out.println("Samlet pris for Fin Madsen: " + Controller.beregnSamletPris(tilmeldingFinMadsen) + " kr");
+       // System.out.println("Samlet pris for Fin Madsen: " + Controller.beregnSamletPris(tilmeldingFinMadsen) + " kr");
 
 
         //-------------------------------------------------------------
@@ -61,7 +58,7 @@ public class App {
                 LocalDate.of(2024, 12, 20), false);
 
 
-        System.out.println("Samlet pris for Niels Petersen: " + Controller.beregnSamletPris(tilmeldingNielsPetersen) + " kr");
+       // System.out.println("Samlet pris for Niels Petersen: " + Controller.beregnSamletPris(tilmeldingNielsPetersen) + " kr");
 
 
         //-----------------------------------------------------------------------
@@ -79,7 +76,7 @@ public class App {
         Controller.vælgUdflugt(tilmeldingPeterSommmer, havOgHimmel, "Trapholt Museum, Kolding (inkl. frokost)");
 
 
-        System.out.println("Samlet pris for Peter Sommer: " + Controller.beregnSamletPris(tilmeldingPeterSommmer) + " kr");
+       // System.out.println("Samlet pris for Peter Sommer: " + Controller.beregnSamletPris(tilmeldingPeterSommmer) + " kr");
 
 
         //--------------------------------------------------------------------------------
@@ -96,6 +93,6 @@ public class App {
         Controller.vælgUdflugt(tilmeldingLoneJensen, havOgHimmel, "Byrundtur, Odense (inkl. frokost)");
 
 
-        System.out.println("Samlet pris for Lone Jensen: " + Controller.beregnSamletPris(tilmeldingLoneJensen) + " kr");
+        //System.out.println("Samlet pris for Lone Jensen: " + Controller.beregnSamletPris(tilmeldingLoneJensen) + " kr");
     }
 }

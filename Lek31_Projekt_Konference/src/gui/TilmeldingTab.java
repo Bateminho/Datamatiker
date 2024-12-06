@@ -33,9 +33,9 @@ public class TilmeldingTab {
     private ComboBox<Hotel> hotelNavn = new ComboBox<>();
     private ComboBox<Tilvalg> tilvalg = new ComboBox<>();
     private ListView<Tilvalg> tilvalgList = new ListView<>();
-    private Button tilfoejTillaeg = new Button("Tilføj Tillæg");
+    private Button tilføjTillæg = new Button("Tilføj Tillæg");
     private Button fjernTillaeg = new Button("Fjern Tillæg");
-    private Button tilfoejHotel = new Button("Tilføj Hotel");
+    private Button tilføjHotel = new Button("Tilføj Hotel");
 
     // Summary fields
     private ListView<Deltager> deltagerSummary = new ListView<>();
@@ -98,8 +98,22 @@ public class TilmeldingTab {
     private void tilføjDeltagerAction() {
         String navn = deltagerNavn.getText().trim();
         String adresseDeltager = adresse.getText().trim();
-        Deltager deltager = Controller.createDeltager(navn, adresseDeltager, by.getText(), land.getText(), telefonNr.getText(), deltagerFirma.getText(), firmaTlfNr.getText());
+        String firmaDeltager;
+        if (deltagerFirma.getText().trim().isEmpty()){
+            firmaDeltager = null;
+        } else {
+            firmaDeltager = deltagerFirma.getText().trim();
+        }
+        Deltager deltager = Controller.createDeltager(navn,
+                adresseDeltager,
+                by.getText(),
+                land.getText(),
+                telefonNr.getText(),
+                firmaDeltager,
+                firmaTlfNr.getText());
         deltagerSummary.getItems().add(deltager);
+        tilfoejDeltager.setDisable(true);
+        foredragsholder.setDisable(true);
     }
 
     // ---------------------------------- Ledsager Sektion -----------------------------------------------------
@@ -166,13 +180,13 @@ public class TilmeldingTab {
 
         });
 
-        tilvalg.setPromptText("Tillæg");
+        tilvalg.setPromptText("Tilvalg");
 
-        tilfoejTillaeg.setOnAction(event -> tilføjTilvalgAction());
+        tilføjTillæg.setOnAction(event -> tilføjTilvalgAction());
         fjernTillaeg.setOnAction(event -> fjernTilvalgAction());
-        tilfoejHotel.setOnAction(event -> tilføjHotelAction());
+        tilføjHotel.setOnAction(event -> tilføjHotelAction());
 
-        box.getChildren().addAll(hotelNavn, tilvalg, tilfoejTillaeg, fjernTillaeg, tilvalgList, tilfoejHotel);
+        box.getChildren().addAll(hotelNavn, tilvalg, tilføjTillæg, fjernTillaeg, tilvalgList, tilføjHotel);
         return box;
     }
 
@@ -199,9 +213,9 @@ public class TilmeldingTab {
 
             hotelNavn.setDisable(true);
             tilvalg.setDisable(true);
-            tilfoejTillaeg.setDisable(true);
+            tilføjTillæg.setDisable(true);
             fjernTillaeg.setDisable(true);
-            tilfoejHotel.setDisable(true);
+            tilføjHotel.setDisable(true);
         }
 
     }
@@ -247,7 +261,7 @@ public class TilmeldingTab {
             // Hent datoer og foredragsholder-status
             LocalDate ankomst = ankomstDato.getValue();
             LocalDate afrejse = afrejseDato.getValue();
-            boolean foredragsholderStatus = foredragsholder.isSelected();
+
 
             // Valider, om datoerne er blevet valgt
             if (ankomst == null || afrejse == null) {
@@ -258,9 +272,6 @@ public class TilmeldingTab {
             if (ankomst.isAfter(afrejse)) {
                 throw new IllegalArgumentException("Ankomstdato skal være før eller lig med afrejsedato.");
             }
-
-            // Hvis datoerne er gyldige, fortsæt med at oprette tilmelding
-            System.out.println("Datoer er gyldige: Ankomst - " + ankomstDato + ", Afrejse - " + afrejseDato);
 
         } catch (IllegalArgumentException e) {
             // Vis en advarsel, hvis der opstår en valideringsfejl
@@ -276,6 +287,7 @@ public class TilmeldingTab {
         // Opret Tilmelding via Controller
         Tilmelding tilmelding = Controller.createTilmelding(
                 havOgHimmel, hotel, deltager, ledsager, ankomstDato.getValue(), afrejseDato.getValue(), foredragsholder.isSelected()
+
         );
 
         // Tilføj valgte udflugter til tilmeldingen
@@ -288,6 +300,10 @@ public class TilmeldingTab {
             tilmelding.tilføjTilvalg(tilvalg);
         }
 
+        // Kald beregnSamletPris for at beregne og vise prisen
+        Controller.beregnSamletPris(tilmelding);
+
+
         // Byg en besked for at vise oplysningerne i en Alert
         StringBuilder besked = new StringBuilder();
         besked.append("Tilmelding oprettet!\n\n");
@@ -295,7 +311,8 @@ public class TilmeldingTab {
         // Tilføj deltageroplysninger
         besked.append("Deltager:\n");
         besked.append("Navn: ").append(deltager.getNavn()).append("\n");
-        besked.append("Telefon: ").append(deltager.getTelefonnr()).append("\n\n");
+        besked.append("Telefon: ").append(deltager.getTelefonnr()).append("\n");
+        besked.append("Foredragsholder: ").append(foredragsholder.isSelected() ? "Ja" : "Nej").append("\n\n");
 
         // Tilføj ledsageroplysninger (hvis valgt)
         if (ledsager != null) {
@@ -327,7 +344,7 @@ public class TilmeldingTab {
         besked.append("Datoer:\n");
         besked.append("Ankomst: ").append(ankomstDato.getValue()).append("\n");
         besked.append("Afrejse: ").append(afrejseDato.getValue()).append("\n");
-        besked.append("Foredragsholder: ").append(foredragsholder.isSelected() ? "Ja" : "Nej").append("\n");
+
 
         // Vis beskeden i en Alert
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -355,24 +372,41 @@ public class TilmeldingTab {
 
 
     private void clearFields() {
+       deltagerNavn.clear();
+       adresse.clear();
+       by.clear();
+       land.clear();
+       telefonNr.clear();
+       firmaTlfNr.clear();
+       deltagerFirma.clear();
+       foredragsholder.setDisable(false);
+       tilfoejDeltager.setDisable(false);
+
+
         deltagerSummary.getItems().clear();
         ledsagerSummary.getItems().clear();
         hotelSummary.getItems().clear();
+
+
         udflugtList.getItems().clear();
         tilvalgList.getItems().clear();
         ankomstDato.setValue(null);
         afrejseDato.setValue(null);
         foredragsholder.setSelected(false);
 
+        udflugt.getSelectionModel().clearSelection();
         tilfoejLedsager.setDisable(false);
         tilføjUdflugt.setDisable(false);
         fjernUdflugt.setDisable(false);
 
+
         hotelNavn.setDisable(false);
+        tilvalg.getSelectionModel().clearSelection();
         tilvalg.setDisable(false);
-        tilfoejTillaeg.setDisable(false);
+
+        tilføjTillæg.setDisable(false);
         fjernTillaeg.setDisable(false);
-        tilfoejHotel.setDisable(false);
+        tilføjHotel.setDisable(false);
     }
 }
 

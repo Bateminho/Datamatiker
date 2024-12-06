@@ -7,6 +7,10 @@ import javafx.scene.layout.*;
 import model.Hotel;
 import model.Konference;
 import model.Tilmelding;
+import model.Udflugt;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class HotelOversigtTab {
 
@@ -21,6 +25,10 @@ public class HotelOversigtTab {
         // Hent hoteller og opdater listen
         updateHotelList();
 
+        // Knappen "Gem"
+        Button gemHotel = new Button("Gem");
+        gemHotel.setOnAction(e -> gemHotelAction());
+
         hotelListView.setPrefWidth(200);
         hotelListView.setPrefHeight(300);
 
@@ -30,7 +38,7 @@ public class HotelOversigtTab {
         hotelListView.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> updateDeltagerList(newValue));
         // Konfigurer layout
         root.getChildren().addAll(
-                new VBox(10, new Label("Hoteloversigt"), hotelListView),
+                new VBox(10, new Label("Hoteloversigt"), hotelListView, gemHotel),
                 new VBox(10, new Label("Deltagere"), deltagerListView)
         );
         return root;
@@ -62,6 +70,49 @@ public class HotelOversigtTab {
                 }
             }
         }
+    }
+
+    public void gemHotelAction() {
+
+        String filePath = System.getProperty("user.home") + "/hotel_data.txt";
+
+        try {
+            PrintWriter printWriter = new PrintWriter(filePath);
+
+            for (Hotel hotel : hotelListView.getItems()) {
+                printWriter.println("Hotel:");
+                printWriter.println(hotel);
+                printWriter.println("\nGæster:");
+
+                for (Tilmelding tilmelding : konference.getTilmeldinger()) {
+                    if (tilmelding.getHotel() != null && tilmelding.getHotel().equals(hotel)) {
+                        StringBuilder deltagerInfo = new StringBuilder();
+                        deltagerInfo.append("Deltager: ").append(tilmelding.getDeltager().getNavn());
+
+                        if (tilmelding.getLedsager() != null) {
+                            deltagerInfo.append(", Ledsager: ").append(tilmelding.getLedsager().getNavn());
+                        }
+
+                        deltagerInfo.append(" Ankomst: ").append(tilmelding.getAnkomstDato())
+                                .append(", Afrejse: ").append(tilmelding.getAfrejseDato()).append(")");
+                        printWriter.println(deltagerInfo);
+                    }
+                }
+                printWriter.println();
+            }
+            printWriter.close();
+
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Gem data");
+        alert.setHeaderText("Succes");
+        alert.setContentText("Du har gemt dine data!");
+        alert.showAndWait();
     }
 
     // Offentlig metode til at opdatere hele tabben

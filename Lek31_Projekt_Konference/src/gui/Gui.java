@@ -48,7 +48,5 @@ public class Gui extends Application {
         return tab;
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+
 }

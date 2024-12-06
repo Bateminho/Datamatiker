@@ -109,24 +109,19 @@ public class Tilmelding {
         this.tilvalg.remove(tilvalg);
     }
 
-    // Beregn konferenceAfgift baseret på antal dage
     public double beregnSamletPris() {
 
-        double konferencepris = 0;
-        if (konference != null) {
-           int antalDage = (int) ChronoUnit.DAYS.between(ankomstDato, afrejseDato) + 1;
-           konferencepris = antalDage * konference.getPrisPrDag();
-        }
+        double konferencepris = konference.beregnKonferencePris(ankomstDato, afrejseDato, foredragsholder, deltager.getFirmanavn() != null);
 
-        // Beregn hotelpris, hvis relevant
+        // Beregn hotelpris
         double hotelPris = 0;
         if (hotel != null) {
-           int antalNætter = (int) ChronoUnit.DAYS.between(ankomstDato, afrejseDato);
-           boolean enkeltVærelse = ledsager == null;
-           hotelPris = hotel.beregnOpholdsPris(antalNætter, enkeltVærelse, tilvalg);
+            int antalNætter = (int) ChronoUnit.DAYS.between(ankomstDato, afrejseDato);
+            boolean enkeltVærelse = ledsager == null;
+            hotelPris = hotel.beregnOpholdsPris(antalNætter, enkeltVærelse, tilvalg);
         }
 
-        // Udflugtspris for ledsager
+        // Beregn udflugtspriser (kun for ledsager)
         double udflugtsPris = 0;
         if (ledsager != null) {
             for (Udflugt udflugt : udflugter) {
@@ -134,17 +129,8 @@ public class Tilmelding {
             }
         }
 
-        // Hvis deltager er i et firma betales afgift af firmaet.
-        if (deltager.getFirmanavn() != null) {
-            konferencepris = 0;
-        }
-
-        // Hvis foredragsholder, skal konferenceafgiften være gratis
-        if (foredragsholder) {
-            konferencepris = 0;
-        }
-
         return konferencepris + hotelPris + udflugtsPris;
     }
+
 
 }
