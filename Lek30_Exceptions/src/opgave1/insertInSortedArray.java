@@ -1,8 +1,6 @@
 package opgave1;
 
 import model.Customer;
-
-import javax.swing.text.DefaultStyledDocument;
 import java.util.ArrayList;
 import java.util.Arrays;
 

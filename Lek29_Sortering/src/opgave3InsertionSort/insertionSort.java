@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class insertionSort {
 
-    public static void insertioneSortArray(String[] list) {
+    public static void insertionSortArray(String[] list) {
         for (int i = 1; i < list.length; i++) {
             String next = list[i];
             int j = i;
@@ -29,17 +29,20 @@ public class insertionSort {
             Customer next = list.get(i);
             int j = i;
             boolean found = false;
+
             while (!found && j > 0) {
-                if (next.getFirstName().compareTo(list.get(i).getFirstName()) >= 0) {
-                    found = true;
+                if (next.getFirstName().compareTo(list.get(j - 1).getFirstName()) >= 0) {
+                    found = true; // Placering fundet
                 } else {
-                    list.set(i, list.get(j-1));
+                    list.set(j, list.get(j - 1)); // Flyt elementet til højre
                     j--;
                 }
             }
-            list.set(j, next);
+
+            list.set(j, next); // Placer elementet korrekt
         }
     }
+
 
     public static void main(String[] args) {
         Customer customer1 = new Customer("Sean", "Bateman", 41);
@@ -58,7 +61,7 @@ public class insertionSort {
 
         System.out.println(Arrays.toString(customerlist));
 
-        insertioneSortArray(customerlist);
+        insertionSortArray(customerlist);
 
         System.out.println(Arrays.toString(customerlist));
 
