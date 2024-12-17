@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 public class WriteToFile {
     public static void main(String[] args) {
 
-        String filePath = "C:\\Users\\Sean\\Documents\\Uddannelse\\Datamatiker\\1. semester\\Programmering\\opgave6.txt";
+        String filePath = "C:\\Users\\Sean\\Documents\\Uddannelse\\Datamatiker\\1. semester\\Programmering\\textfiler\\opgave6.txt";
 
         try {
             File file = new File(filePath);

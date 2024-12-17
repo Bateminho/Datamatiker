@@ -28,7 +28,7 @@ public class FletCustomerArrayAndArrayList {
         ArrayList<Customer> result = goodCustomers(customerList1, customersBadPayers);
         System.out.println("Good customers: " + result);
     }
-
+    //---------------- Husk at lister skal være sorteret!!! -------------------------------
     /**
      * Returnerer en sorteret ArrayList der indeholder alle
      * customers fra l1 der ikke er i l2
@@ -36,6 +36,8 @@ public class FletCustomerArrayAndArrayList {
      * indeholder ikke tomme pladser
      */
     public static ArrayList<Customer> goodCustomers(ArrayList<Customer> l1, Customer[] l2) {
+
+
         ArrayList<Customer> result = new ArrayList<>();
 
         int i1 = 0; // Index for l1
