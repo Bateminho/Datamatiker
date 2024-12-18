@@ -21,6 +21,9 @@ public class Deltagelse {
         return status;
     }
 
+    public void setStatus(DeltagerStatus status) {
+        this.status = status;
+    }
 
     public Studerende getStuderende() {
         return studerende;
@@ -46,5 +49,10 @@ public class Deltagelse {
     public boolean erRegisteretFraværende() {
 
         return registreret && status != DeltagerStatus.TILSTEDE;
+    }
+
+    @Override
+    public String toString() {
+        return this.studerende.getNavn() + " " + status;
     }
 }

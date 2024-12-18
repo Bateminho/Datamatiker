@@ -30,6 +30,11 @@ public class Lektion {
         return lokale;
     }
 
+    @Override
+    public String toString() {
+        return dato.toString() + " " + startTid.toString() + " " + lokale;
+    }
+
     public ArrayList<Deltagelse> getDeltagelser() {
         return new ArrayList<>(deltagelser);
     }
