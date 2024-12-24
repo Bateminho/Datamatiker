@@ -35,6 +35,10 @@ public class Vare {
         solgt = true;
     }
 
+    public String getSalgsStatus(){
+        return isSolgt() ? "solgt" : "til salg";
+    }
+
     public Salgsannonce getSalgsannonce() { return salgsannonce; }
 
     public void setSalgsannonce(Salgsannonce salgsannonce) {
@@ -49,5 +53,10 @@ public class Vare {
             }
         }
 
+    }
+
+    @Override
+    public String toString() {
+        return navn + " " + udbudspris + " " + getSalgsStatus();
     }
 }

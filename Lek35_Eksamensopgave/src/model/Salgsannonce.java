@@ -43,6 +43,20 @@ public class Salgsannonce {
         return sælger;
     }
 
+    public void setSælger(Sælger sælger) {
+        if (this.sælger != sælger) {
+            Sælger oldSælger = this.sælger;
+            if (oldSælger != null) {
+                oldSælger.removeSalgsannonce(this);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return annonceNummer + " " + sælger + " " + udløbsdato ;
+    }
+
     public ArrayList<Vare> getVarer() {
         return new ArrayList<>(varer);
     }
@@ -70,6 +84,24 @@ public class Salgsannonce {
         }
 
         return samletPris;
+    }
+
+    public void opdatereAktivStatus() {
+        if (udløbsdato.isBefore(LocalDate.now()) || udløbsdato.isEqual(LocalDate.now())) {
+            aktiv = false;
+            return;
+        }
+
+        // 2. Tjek om der stadig er varer, der ikke er solgt
+        for (Vare vare : varer) {
+            if (!vare.isSolgt()) {
+                return; // Annoncen forbliver aktiv
+            }
+        }
+
+        // 3. Hvis alle varer er solgt, deaktiver annoncen
+        aktiv = false;
+
     }
 
 }
