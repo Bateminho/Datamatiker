@@ -52,9 +52,6 @@ public class Sælger {
         //Sælger har en liste af salgsannoncer i attributten salgsannoncer.
 
 
-
-
-
         for (Salgsannonce annonce : salgsannoncer) {
             //Kontrollér om salgsannoncen er aktiv.
             //Brug metoden isAktiv() fra klassen Salgsannonce.
